@@ -1,34 +1,57 @@
 import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [step, setStep] = useState(0); // Initialize with the current step
+
+  const nextStep = () => {
+    if (step >= steps.length) {
+      return;
+    }
+    setStep(step + 1);
+  };
+
+  const prevStep = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    }
+  };
+
+  const changeMenu = (menuStep) => {
+    setStep(menuStep);
+  };
+
+  const steps = [
+  ];
+
   return (
     <>
       <div className="body-wrapper">
         <div className="body-content grid-container">
           <div className="content-wrapper">
             <div className="menu-wrapper">
-              <div className="nav" onclick="nextStep(1)">
+              <div className="nav" onClick={changeMenu}>
                 <div className="number"><span className="active">1</span></div>
                 <div className="info">
                   <h3>STEP 1</h3>
                   <h2>YOUR INFO</h2>
                 </div>
               </div>
-              <div className="nav" onclick="nextStep(2)">
+              <div className="nav" onClick={changeMenu}>
                 <div className="number"><span>2</span></div>
                 <div className="info">
                   <h3>STEP 2</h3>
                   <h2>SELECT PLAN</h2>
                 </div>
               </div>
-              <div className="nav" onclick="nextStep(3)">
+              <div className="nav" onClick={changeMenu}>
                 <div className="number"><span>3</span></div>
                 <div className="info">
                   <h3>STEP 3</h3>
                   <h2>ADD-ONS</h2>
                 </div>
               </div>
-              <div className="nav" onclick="nextStep(4)">
+              <div className="nav" onClick={changeMenu}>
                 <div className="number"><span>4</span></div>
                 <div className="info">
                   <h3>STEP 4</h3>
@@ -46,19 +69,19 @@ function App() {
                   <p>Please provide your name, email address, and phone number.</p>
                 </div>
                 <div className="content">
-                  <label for="">Name</label><br />
+                  <label htmlFor="">Name</label><br />
                   <input type="text" placeholder="e.g. Stephen King" />
                 </div>
                 <div className="content">
-                  <label for="">Email Address</label> <br />
+                  <label htmlFor="">Email Address</label> <br />
                   <input type="text" placeholder="e.g. stephenking@lorem.com" />
                 </div>
                 <div className="content">
-                  <label for="">Phone Number</label> <br />
+                  <label htmlFor="">Phone Number</label> <br />
                   <input type="text" placeholder="e.g. +1 234 567 890" />
                 </div>
                 <div className="next-step first">
-                  <button className="btn" type="button" onclick="nextStep(1)">Next Step</button>
+                  <button className="btn" type="button" onClick={nextStep}>Next Step</button>
                 </div>
               </div>
               <div className="step">
@@ -95,8 +118,8 @@ function App() {
                     </div>
                   </div>
                   <div className="next-step">
-                    <button onclick="prevStep(1)" className="btn back">Go Back</button>
-                    <button className="btn" type="button" onclick="nextStep(2)">Next Step</button>
+                    <button onClick={prevStep} className="btn back">Go Back</button>
+                    <button className="btn" type="button" onClick={nextStep}>Next Step</button>
                   </div>
                 </div>
               </div>
@@ -151,8 +174,8 @@ function App() {
                     </div>
                   </div>
                   <div className="next-step">
-                    <button onclick="prevStep(2)" className="btn back">Go Back</button>
-                    <button className="btn" type="button" onclick="nextStep(3)">Next Step</button>
+                    <button onClick={prevStep} className="btn back">Go Back</button>
+                    <button className="btn" type="button" onClick={nextStep}>Next Step</button>
                   </div>
                 </div>
               </div>
@@ -201,7 +224,7 @@ function App() {
                     </div>
                   </div>
                   <div className="next-step total">
-                    <button onclick="prevStep(2)" className="btn back">Go Back</button>
+                    <button onClick={prevStep} className="btn back">Go Back</button>
                     <button className="btn" type="button">Confirm</button>
                   </div>
                 </div>
