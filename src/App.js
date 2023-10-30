@@ -9,7 +9,10 @@ import { menuItems, info, formFields, plan, cardData, addOns, addOnsData, finish
 
 function App() {
   const [step, setStep] = useState(0);
-  const [isChecked, setIsCheceked] = useState(false);
+  const [checkboxes, setCheckboxes] = useState([]);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [activeServiceIndex, setActiveServiceIndex] = useState(0);
+  const [isMonthly, setIsMonthly] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,15 +26,29 @@ function App() {
   });
 
 
-  const changeCheckBox = (e) => {
-    setIsCheceked(e.target.checked)
+  const handleServiceTab = (index) => {
+    console.log(index)
+    setActiveServiceIndex(index)
   }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
   }
+
+  const handleCheckboxChange = (index) => {
+    setCheckboxes((prevState) => {
+      const updatedCheckboxes = { ...prevState };
+
+      if (updatedCheckboxes[index] === null || updatedCheckboxes[index] === false) {
+        updatedCheckboxes[index] = true;
+      } else {
+        updatedCheckboxes[index] = null;
+      }
+
+      return updatedCheckboxes;
+    });
+  };
 
   const navigateToNextMenu = (tabIndex) => {
     const newValidationMessages = {
@@ -70,6 +87,14 @@ function App() {
   function isEmailValid(email) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
+  }
+
+  const handleActiveCardIndex = (cardIndex) => {
+    setActiveCardIndex(cardIndex);
+  }
+
+  const togglePlan = () => {
+    setIsMonthly(!isMonthly)
   }
 
 
@@ -117,10 +142,10 @@ function App() {
                 <div className="content">
                   <div className="card-wrapper">
                     {cardData.map((card, index) => (
-                      <div key={index} className={`content-title ${index === 0 ? 'active' : ''}`}>
+                      <div key={index} onClick={() => handleActiveCardIndex(index)} className={`content-title ${index === activeCardIndex ? 'active-card' : ''}`}>
                         <img src={card.imageSrc} alt="" />
                         <h2>{card.title}</h2>
-                        <p>{card.price}</p>
+                        <p>{isMonthly ? card?.monthlyPrice : card?.yearlyPrice}</p>
                       </div>
                     ))}
                   </div>
@@ -128,7 +153,7 @@ function App() {
                     <div>
                       <span className="monthly-yearly-text">Monthly</span>
                       <label className="switch">
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={togglePlan} checked={!isMonthly} />
                         <span className="slider round"></span>
                       </label>
                       <span className="monthly-yearly-text">Yearly</span>
@@ -144,16 +169,16 @@ function App() {
                 <Header data={addOns} />
                 <div className="content">
                   <div className="card-wrapper add-ons">
-                    {addOnsData.map((addOn, index) => (
-                      <div key={index} className={`content-title ${index === 0 ? 'active' : ''}`}>
+                    {addOnsData?.map((addOn, index) => (
+                      <div key={index} className={`content-title ${index === activeServiceIndex ? 'active-service' : ''}`} onClick={() => handleServiceTab(index)}>
                         <div className="content-title-details">
-                          <div className="checkbox">
+                          <div className="checkbox" >
                             <input
                               type="checkbox"
                               id={`scales${index}`}
                               name={`scales${index}`}
-                              checked={isChecked}
-                              onChange={changeCheckBox}
+                              checked={checkboxes[index] || false}
+                              onChange={() => handleCheckboxChange(index)}
                             />
                           </div>
                           <div className="inner-text">
@@ -181,7 +206,7 @@ function App() {
                       <div key={index} className="content-title">
                         <div className="inner-text">
                           {card.change ? <h2>{card.title}</h2> : <p>{card.title}</p>}
-                          {card.change && <p>{card.change}</p>}
+                          {card.change && <p onClick={() => changeMenu(1)}>{card.change}</p>}
                         </div>
                         <div className="amount">
                           <p>{card.amount}</p>

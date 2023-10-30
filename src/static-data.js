@@ -50,17 +50,20 @@ const menuItems = [
     {
       title: 'Arcade',
       imageSrc: Arcade,
-      price: '$9/month',
+      monthlyPrice: '$9/month',
+      yearlyPrice: '$100/year'
     },
     {
       title: 'Advanced',
       imageSrc: Advanced,
-      price: '$12/month',
+      monthlyPrice: '$12/month',
+      yearlyPrice: '$120/year'
     },
     {
       title: 'Pro',
       imageSrc: Pro,
-      price: '$15/month',
+      monthlyPrice: '$15/month',
+      yearlyPrice: '$150/year'
     },
   ];
 
@@ -81,6 +84,12 @@ const menuItems = [
       price: '+$5/mo',
     },
   ];
+
+  const checkboxesData = [
+    { isChecked: false },
+    { isChecked: true },
+    { isChecked: false },
+  ]
 
   const cardDatas = [
     {
@@ -117,5 +126,5 @@ const menuItems = [
   }
 
   export {
-    menuItems, formFields, cardData, addOnsData, cardDatas, info, plan, addOns, finish
+    menuItems, formFields, cardData, addOnsData, cardDatas, info, plan, addOns, finish, checkboxesData
   }
